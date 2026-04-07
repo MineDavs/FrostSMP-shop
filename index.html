@@ -8,7 +8,7 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     background: #0b0f1a;
     color: white;
 }
@@ -18,14 +18,13 @@ nav {
     display: flex;
     justify-content: center;
     padding: 15px;
-    border-bottom: 1px solid #222;
 }
 
 nav button {
     background: none;
     border: none;
     color: white;
-    margin: 0 10px;
+    margin: 10px;
     cursor: pointer;
 }
 
@@ -55,7 +54,6 @@ nav button {
 
 /* BOTÃO */
 .btn {
-    display: block;
     margin-top: 10px;
     padding: 10px;
     background: #22c1c3;
@@ -76,15 +74,10 @@ nav button {
 .popup-box {
     background: #111827;
     padding: 20px;
-    margin: 80px auto;
+    margin: 100px auto;
     width: 300px;
     border-radius: 10px;
     text-align: center;
-}
-
-.close {
-    color: red;
-    cursor: pointer;
 }
 </style>
 </head>
@@ -135,49 +128,40 @@ nav button {
 <!-- PAGAMENTO -->
 <div id="pagamento" class="popup">
     <div class="popup-box">
-        <span class="close" onclick="fecharPagamento()">X</span>
         <h3 id="produto"></h3>
         <p id="preco"></p>
 
-        <h4>Escolha o pagamento:</h4>
+        <button onclick="pix()">Pix</button>
+        <button onclick="cartao()">Cartão</button>
 
-        <div class="btn" onclick="pix()">Pix</div>
-        <div class="btn" onclick="cartao()">Cartão</div>
+        <p id="info"></p>
 
-        <div id="infoPagamento"></div>
+        <button onclick="fecharPagamento()">Fechar</button>
     </div>
 </div>
 
 <script>
 function trocarAba(aba) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(aba).classList.add('active');
+    document.querySelectorAll('.section').forEach(s => s.style.display = "none");
+    document.getElementById(aba).style.display = "block";
 }
 
 function abrirPagamento(nome, valor) {
+    document.getElementById("pagamento").style.display = "block";
     document.getElementById("produto").innerText = nome;
     document.getElementById("preco").innerText = "R$" + valor;
-    document.getElementById("pagamento").style.display = "block";
 }
 
 function fecharPagamento() {
     document.getElementById("pagamento").style.display = "none";
-    document.getElementById("infoPagamento").innerHTML = "";
 }
 
 function pix() {
-    document.getElementById("infoPagamento").innerHTML = `
-    <p>Chave Pix:</p>
-    <p><b>SEU-PIX-AQUI</b></p>
-    <p>Envie o comprovante no Discord</p>
-    `;
+    document.getElementById("info").innerText = "Chave Pix: SUA-CHAVE-AQUI";
 }
 
 function cartao() {
-    document.getElementById("infoPagamento").innerHTML = `
-    <p>Pagamento por cartão:</p>
-    <p>Use Mercado Pago ou outro link</p>
-    `;
+    document.getElementById("info").innerText = "Use um link do Mercado Pago";
 }
 </script>
 
