@@ -1,44 +1,185 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-  <title>FrostSMP Loja</title>
-  <style>
-    body {
-      background: #0b0f1a;
-      color: white;
-      text-align: center;
-      font-family: Arial;
-    }
-    .card {
-      background: #111827;
-      margin: 20px;
-      padding: 20px;
-      border-radius: 10px;
-    }
-    button {
-      background: #00bfff;
-      border: none;
-      padding: 10px;
-      color: white;
-      border-radius: 5px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FrostSMP Loja</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0f1a;
+    color: white;
+}
+
+/* MENU */
+nav {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    border-bottom: 1px solid #222;
+}
+
+nav button {
+    background: none;
+    border: none;
+    color: white;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+/* SEÇÕES */
+.section {
+    display: none;
+    padding: 20px;
+}
+
+.active {
+    display: block;
+}
+
+/* CARDS */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #111827;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+/* BOTÃO */
+.btn {
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    background: #22c1c3;
+    color: black;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* POPUP */
+.popup {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+}
+
+.popup-box {
+    background: #111827;
+    padding: 20px;
+    margin: 80px auto;
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.close {
+    color: red;
+    cursor: pointer;
+}
+</style>
 </head>
+
 <body>
 
-<h1>❄️ FrostSMP Loja ❄️</h1>
+<h1 style="text-align:center;">❄️ FrostSMP Loja ❄️</h1>
 
-<div class="card">
-  <h2>VIP Frost</h2>
-  <p>R$10</p>
-  <button onclick="alert('Chama no PV pra comprar')">Comprar</button>
+<nav>
+    <button onclick="trocarAba('vips')">VIPs</button>
+    <button onclick="trocarAba('kits')">Kits</button>
+    <button onclick="trocarAba('coins')">Coins</button>
+</nav>
+
+<!-- VIP -->
+<div id="vips" class="section active">
+    <div class="container">
+        <div class="card">
+            <h3>VIP Frost</h3>
+            <p>R$10</p>
+            <div class="btn" onclick="abrirPagamento('VIP Frost',10)">Comprar</div>
+        </div>
+    </div>
 </div>
 
-<div class="card">
-  <h2>Coins</h2>
-  <p>1000 Coins - R$5</p>
-  <button onclick="alert('Chama no PV pra comprar')">Comprar</button>
+<!-- KITS -->
+<div id="kits" class="section">
+    <div class="container">
+        <div class="card">
+            <h3>Kit Inicial</h3>
+            <p>R$7</p>
+            <div class="btn" onclick="abrirPagamento('Kit Inicial',7)">Comprar</div>
+        </div>
+    </div>
 </div>
+
+<!-- COINS -->
+<div id="coins" class="section">
+    <div class="container">
+        <div class="card">
+            <h3>1000 Coins</h3>
+            <p>R$5</p>
+            <div class="btn" onclick="abrirPagamento('Coins',5)">Comprar</div>
+        </div>
+    </div>
+</div>
+
+<!-- PAGAMENTO -->
+<div id="pagamento" class="popup">
+    <div class="popup-box">
+        <span class="close" onclick="fecharPagamento()">X</span>
+        <h3 id="produto"></h3>
+        <p id="preco"></p>
+
+        <h4>Escolha o pagamento:</h4>
+
+        <div class="btn" onclick="pix()">Pix</div>
+        <div class="btn" onclick="cartao()">Cartão</div>
+
+        <div id="infoPagamento"></div>
+    </div>
+</div>
+
+<script>
+function trocarAba(aba) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(aba).classList.add('active');
+}
+
+function abrirPagamento(nome, valor) {
+    document.getElementById("produto").innerText = nome;
+    document.getElementById("preco").innerText = "R$" + valor;
+    document.getElementById("pagamento").style.display = "block";
+}
+
+function fecharPagamento() {
+    document.getElementById("pagamento").style.display = "none";
+    document.getElementById("infoPagamento").innerHTML = "";
+}
+
+function pix() {
+    document.getElementById("infoPagamento").innerHTML = `
+    <p>Chave Pix:</p>
+    <p><b>SEU-PIX-AQUI</b></p>
+    <p>Envie o comprovante no Discord</p>
+    `;
+}
+
+function cartao() {
+    document.getElementById("infoPagamento").innerHTML = `
+    <p>Pagamento por cartão:</p>
+    <p>Use Mercado Pago ou outro link</p>
+    `;
+}
+</script>
 
 </body>
 </html>
